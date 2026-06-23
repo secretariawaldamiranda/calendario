@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Calendário Escolar 2026 - Formosa-GO</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Formosa - Goiás · Escolas Urbanas</p>
+        <h1>Calendário Escolar 2026</h1>
+      </div>
+      <div class="top-actions">
+        <div class="mode-switch" role="tablist" aria-label="Tipo de calendário">
+          <button class="mode-button" data-mode="official" type="button">Oficial</button>
+          <button class="mode-button active" data-mode="school" type="button">Alterado pela escola</button>
+        </div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">Modo escuro</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="status-strip">
+        <label class="field">
+          <span>Data de referência</span>
+          <input id="referenceDate" type="date" min="2026-01-01" max="2026-12-31">
+        </label>
+        <div class="metric">
+          <span>Dias letivos acumulados</span>
+          <strong id="schoolDaysCount">0</strong>
+        </div>
+        <div class="metric">
+          <span>Horas acumuladas</span>
+          <strong id="hoursCount">0h</strong>
+        </div>
+        <div class="metric">
+          <span>Total do calendário</span>
+          <strong id="totalDaysCount">200 dias</strong>
+        </div>
+      </section>
+
+      <section class="toolbar" aria-label="Filtros e edição">
+        <label class="field grow">
+          <span>Filtrar por categoria do evento</span>
+          <select id="typeFilter"></select>
+        </label>
+        <button id="addEventButton" class="primary-button" type="button">Adicionar evento</button>
+        <button id="undoButton" class="ghost-button" type="button" disabled>Voltar</button>
+        <button id="exportButton" class="ghost-button" type="button">Exportar</button>
+        <label class="import-button ghost-button" for="importFile">Importar</label>
+        <input id="importFile" class="hidden-file" type="file" accept="application/json,.json">
+        <button id="resetSchoolButton" class="ghost-button" type="button">Restaurar calendário da escola</button>
+      </section>
+
+      <section id="historyPanel" class="history-panel">
+        <div class="section-title">
+          <h2>Histórico de alterações</h2>
+          <p id="historySummary">Nenhuma alteração nesta sessão.</p>
+        </div>
+        <ol id="historyList" class="history-list"></ol>
+      </section>
+
+      <section class="week-panel">
+        <div class="section-title">
+          <h2>Previsão da próxima semana</h2>
+          <p id="weekSubtitle"></p>
+        </div>
+        <div id="weekForecast" class="forecast-grid"></div>
+      </section>
+
+      <section class="calendar-shell">
+        <div class="section-title">
+          <h2>Calendário</h2>
+          <p id="modeHint">O calendário oficial fica bloqueado para edição.</p>
+        </div>
+        <div id="calendarGrid" class="calendar-grid"></div>
+      </section>
+
+      <section class="reference-panel">
+        <div>
+          <h2>Imagem oficial do PDF</h2>
+          <p>Use como conferência visual do documento aprovado.</p>
+        </div>
+        <a href="calendario-oficial-2026.png" target="_blank" rel="noreferrer">
+          <img src="calendario-oficial-2026.png" alt="Calendário escolar oficial 2026 de Formosa-GO">
+        </a>
+      </section>
+    </main>
+
+    <dialog id="eventDialog">
+      <form method="dialog" id="eventForm">
+        <header>
+          <h2 id="dialogTitle">Editar evento</h2>
+          <button value="cancel" class="icon-button" type="button" data-close-dialog aria-label="Fechar">×</button>
+        </header>
+        <input id="eventId" type="hidden">
+        <div id="eventNavigator" class="event-navigator hidden">
+          <button id="previousEventButton" class="ghost-button" type="button">Anterior</button>
+          <span id="eventNavigatorLabel"></span>
+          <button id="nextEventButton" class="ghost-button" type="button">Próximo</button>
+        </div>
+        <button id="addSameDayEventButton" class="ghost-button same-day-button" type="button">Adicionar outro evento neste dia</button>
+        <label class="field">
+          <span>Data</span>
+          <input id="eventDate" type="date" min="2026-01-01" max="2026-12-31" required>
+        </label>
+        <label class="field">
+          <span>Categoria do evento</span>
+          <select id="eventType" required></select>
+        </label>
+        <label class="field">
+          <span>Título</span>
+          <input id="eventTitle" type="text" required maxlength="80">
+        </label>
+        <label class="check-field">
+          <input id="eventSchoolDay" type="checkbox">
+          <span>Contar como dia letivo</span>
+        </label>
+        <footer>
+          <button id="deleteEventButton" class="danger-button" type="button">Excluir</button>
+          <span></span>
+          <button class="ghost-button" value="cancel" type="button" data-close-dialog>Cancelar</button>
+          <button id="saveEventButton" class="primary-button" value="default" type="submit">Salvar</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
